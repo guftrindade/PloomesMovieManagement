@@ -17,9 +17,13 @@ namespace Movie.Management.Domain.Service
             _mapper = mapper;
         }
 
-        public Task<ResponseDto> GetAllMoviesAsync()
+        public async Task<ResponseDto> GetAllMoviesAsync()
         {
-            throw new NotImplementedException();
+            var response = await _movieRepository.GetAllAsync();
+            var responseResult = _mapper.Map<IEnumerable<ResponseDto>>(response);
+
+            //configurar retorno para casos de erro padrão
+            return responseResult.FirstOrDefault();
         }
 
         public Task<ResponseDto> GetMovieById(Guid id)

@@ -8,7 +8,7 @@
 
         public string DirectedBy { get; set; }
 
-        public string Year { get; set; }
+        public int Year { get; set; }
 
         public DateTime CreatedDate { get; set; }
     }
