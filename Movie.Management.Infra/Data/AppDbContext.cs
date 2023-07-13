@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Movie.Management.Infra.Mappings;
 using Movie.Management.Infra.Models;
 
 namespace Movie.Management.Infra.Data
@@ -7,6 +8,11 @@ namespace Movie.Management.Infra.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<MovieModel> Movies { get; set; }
+        public DbSet<Movies> Movies { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new MoviesMap());
+        }
     }
 }

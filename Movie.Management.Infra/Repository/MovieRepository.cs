@@ -1,15 +1,10 @@
 ﻿using Movie.Management.Infra.Data;
 using Movie.Management.Infra.Models;
 using Movie.Management.Infra.Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Movie.Management.Infra.Repository
 {
-    public class MovieRepository : BaseRepository, IMovieRepository
+    public class MovieRepository : EntityBaseRepository, IMovieRepository
     {
         private readonly AppDbContext _context;
 
@@ -18,9 +13,14 @@ namespace Movie.Management.Infra.Repository
             _context = context;
         }
 
-        public IEnumerable<MovieModel> Get()
+        public IEnumerable<Movies> GetAllMovies()
         {
             return _context.Movies.ToList();
+        }
+
+        public Movies GetMovieById(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

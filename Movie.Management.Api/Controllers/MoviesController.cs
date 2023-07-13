@@ -1,28 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Movie.Management.Api.ModelsDto;
-using Movie.Management.Api.Service.Interface;
+using Movie.Management.Domain.ModelDto;
+using Movie.Management.Domain.Service.Interface;
 using NSwag.Annotations;
 
 namespace Movie.Management.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [OpenApiTag("Movie Management", Description = "Movie Management Services")]
-    public class MovieController : ControllerBase
+    [OpenApiTag("Movies Management", Description = "Movies Management Services")]
+    public class MoviesController : ControllerBase
     {
-        private readonly IMovieService _movieService;
+        private readonly IMoviesService _movieService;
+        private readonly IMapper _mapper;
 
-        public MovieController(IMovieService movieService)
+        public MoviesController(IMoviesService movieService, IMapper mapper)
         {
             _movieService = movieService;
+            _mapper = mapper;
         }
 
         /// <summary>
         /// Get all movies
         /// </summary>
-        /// <response code="200">Retorna lista de endereços.</response>
+        /// <response code="200">Return the list of movies.</response>
         /// <response code="401">The server can not find the requested resource.</response>
-        [HttpGet("movies")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ResponseDto>> GetAsync()
@@ -43,12 +47,14 @@ namespace Movie.Management.Api.Controllers
         /// <response code="201">Movie successfully registered.</response>
         /// <response code="400">The request could not be understood by the server due to incorrect syntax.</response>
         /// <response code="500">Erro interno da API.</response>
-        [HttpPost("movie")]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ResponseDto>> PostAsync([FromBody] MovieDto movieDto)
+        public async Task<ActionResult<ResponseDto>> PostAsync([FromBody] MovieRequestViewModel requestVm)
         {
-            var response = await _movieService.AddMovieAsync(movieDto);
+            var requestDto = _mapper.Map<MovieDto>(requestVm);
+
+            var response = await _movieService.AddMovieAsync(requestDto);
 
             if (response == null)
             {

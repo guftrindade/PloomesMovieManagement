@@ -2,7 +2,7 @@
 
 namespace Movie.Management.Api.ModelsDto
 {
-    public class ResponseDto
+    public class MovieRequestViewModel
     {
         /// <summary>
         /// Movie Title
@@ -22,12 +22,6 @@ namespace Movie.Management.Api.ModelsDto
         /// </summary>
         /// <example>2007</example>
         [Required]
-        public string Year { get; set; }
-
-        /// <summary>
-        /// Movie Created Date
-        /// </summary>
-        [Required]
-        public DateTime CreatedDate { get; set; }
+        public int Year { get; set; }
     }
 }

@@ -2,8 +2,10 @@
 
 namespace Movie.Management.Infra.Repository.Interface
 {
-    public interface IMovieRepository : IBaseRepository
+    public interface IMovieRepository : IEntityBaseRepository
     {
-        IEnumerable<MovieModel> Get();
+        IEnumerable<Movies> GetAllMovies();
+
+        Movies GetMovieById(int id);
     }
 }
