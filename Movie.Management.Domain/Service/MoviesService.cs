@@ -32,24 +32,17 @@ namespace Movie.Management.Domain.Service
 
         public async Task<Movies> AddMovieAsync(MovieDto movieDto)
         {
-            try
+            if (MoviesValidation.IsValidYear(movieDto.Year))
             {
-                if (MoviesValidation.IsValidYear(movieDto.Year))
-                {
-                    var movie = _mapper.Map<Movies>(movieDto);
+                var movie = _mapper.Map<Movies>(movieDto);
 
-                    _movieRepository.Add(movie);
-                    await _movieRepository.SaveChanges();
+                _movieRepository.Add(movie);
+                await _movieRepository.SaveChanges();
 
-                    return movie;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                
+                return movie;
             }
 
+            //implementar notificação de erro
             return null;
         }
     }
