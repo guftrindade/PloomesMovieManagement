@@ -3,7 +3,6 @@ using Movie.Management.Domain.ModelDto;
 using Movie.Management.Domain.Service.Interface;
 using Movie.Management.Infra.Models;
 using Movie.Management.Infra.Repository.Interface;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Movie.Management.Domain.Service
 {
@@ -23,7 +22,7 @@ namespace Movie.Management.Domain.Service
             throw new NotImplementedException();
         }
 
-        public Task<ResponseDto> GetMovieById(string id)
+        public Task<ResponseDto> GetMovieById(Guid id)
         {
             throw new NotImplementedException();
         }

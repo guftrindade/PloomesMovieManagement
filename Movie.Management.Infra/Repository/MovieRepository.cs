@@ -1,4 +1,5 @@
-﻿using Movie.Management.Infra.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Movie.Management.Infra.Data;
 using Movie.Management.Infra.Models;
 using Movie.Management.Infra.Repository.Interface;
 
@@ -13,14 +14,14 @@ namespace Movie.Management.Infra.Repository
             _context = context;
         }
 
-        public IEnumerable<Movies> GetAllMovies()
+        public async Task<IEnumerable<Movies>> GetAllAsync()
         {
-            return _context.Movies.ToList();
+            return await _context.Movies.ToListAsync();
         }
 
-        public Movies GetMovieById(int id)
+        public async Task<Movies> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Movies.SingleOrDefaultAsync(d => d.Id == id);
         }
     }
 }

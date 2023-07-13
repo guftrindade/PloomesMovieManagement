@@ -2,6 +2,8 @@
 {
     public class ResponseDto
     {
+        public Guid Id { get; set; }
+
         public string Title { get; set; }
 
         public string DirectedBy { get; set; }

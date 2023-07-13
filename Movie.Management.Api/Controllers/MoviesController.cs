@@ -42,6 +42,26 @@ namespace Movie.Management.Api.Controllers
         }
 
         /// <summary>
+        /// Get movie by Id
+        /// </summary>
+        /// <response code="200">Return a movie by Id</response>
+        /// <response code="401">The server can not find the requested resource.</response>
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ResponseDto>> GetByIdAsync(Guid id)
+        {
+            var response = await _movieService.GetMovieById(id);
+
+            if (response == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Create movie
         /// </summary>
         /// <response code="201">Movie successfully registered.</response>
@@ -50,7 +70,7 @@ namespace Movie.Management.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ResponseDto>> PostAsync([FromBody] MovieRequestViewModel requestVm)
+        public async Task<IActionResult> PostAsync([FromBody] MovieRequestViewModel requestVm)
         {
             var requestDto = _mapper.Map<MovieDto>(requestVm);
 
@@ -61,7 +81,7 @@ namespace Movie.Management.Api.Controllers
                 return BadRequest();
             }
 
-            return Created(nameof(GetAsync), response);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = response.Id }, response);
         }
     }
 }
