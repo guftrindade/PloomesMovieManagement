@@ -1,4 +1,5 @@
 ﻿using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace Movie.Management.Api.Configuration
 {
@@ -11,13 +12,18 @@ namespace Movie.Management.Api.Configuration
                 config.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Ploomes Movie Management API",
-                    Description = "Teste prático desenvolvido para o processo seletivo de Desenvolvedor C# Júnior - Ploomes.",
+                    Description = DESCRIPTION,
                     Contact = new OpenApiContact
                     {
                         Name = "Gustavo Ferreira Trindade",
-                        Email = "gustavo@dev.com"
+                        Email = "gustavoferreiratrindade@gmail.com",
+                        Url = new Uri("https://www.linkedin.com/in/gustavoftrindade/")
                     }
                 });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                config.IncludeXmlComments(xmlPath);
             });
 
             return builder;
@@ -36,5 +42,9 @@ namespace Movie.Management.Api.Configuration
 
             return app;
         }
+
+        public const string DESCRIPTION = "Teste prático desenvolvido para o processo seletivo de Desenvolvedor C# Júnior - [Ploomes](https://www.ploomes.com/)." + 
+                                          " Esta API trata-se de um gerenciamento de filmes, onde é possível fazer a inserção, listagem de todos os filmes e a busca" +
+                                          " por um filme específico. Caso tenha interesse em outros projetos, visite meu [GitHub](https://github.com/guftrindade).";
     }
 }

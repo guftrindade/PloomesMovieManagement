@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Movie.Management.Domain.Helpers;
 using Movie.Management.Domain.ModelDto;
 using Movie.Management.Domain.Service.Interface;
 using Movie.Management.Domain.Validations;
@@ -30,20 +31,33 @@ namespace Movie.Management.Domain.Service
             return _mapper.Map<Movies>(response);
         }
 
-        public async Task<Movies> AddMovieAsync(MovieDto movieDto)
+        public async Task<ResultOperation<MovieDto>> AddMovieAsync(MovieDto movieDto)
         {
-            if (MoviesValidation.IsValidYear(movieDto.Year))
+            var returnOperation = AddMoviesValidation(movieDto);
+
+            if (returnOperation.Success)
             {
                 var movie = _mapper.Map<Movies>(movieDto);
 
                 _movieRepository.Add(movie);
                 await _movieRepository.SaveChanges();
 
-                return movie;
+                returnOperation.Result = _mapper.Map<MovieDto>(movie);
             }
 
-            //implementar notificação de erro
-            return null;
+            return returnOperation;
+        }
+
+        public static ResultOperation<MovieDto> AddMoviesValidation(MovieDto movieDto)
+        {
+            var returnOperation = new ResultOperation<MovieDto>();
+
+            if (!MoviesValidation.IsValidYear(movieDto.Year))
+            {
+                returnOperation.Errors.Mensagens.Add("[Year] fiel must be in 'YYYY' format.");
+            }
+
+            return returnOperation;
         }
     }
 }

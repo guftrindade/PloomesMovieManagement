@@ -1,4 +1,5 @@
-﻿using Movie.Management.Domain.ModelDto;
+﻿using Movie.Management.Domain.Helpers;
+using Movie.Management.Domain.ModelDto;
 using Movie.Management.Infra.Models;
 
 namespace Movie.Management.Domain.Service.Interface
@@ -7,6 +8,6 @@ namespace Movie.Management.Domain.Service.Interface
     {
         Task<IEnumerable<Movies>> GetAllMoviesAsync();
         Task<Movies> GetMovieById(int id);
-        Task<Movies> AddMovieAsync(MovieDto movieDto);
+        Task<ResultOperation<MovieDto>> AddMovieAsync(MovieDto movieDto);
     }
 }
