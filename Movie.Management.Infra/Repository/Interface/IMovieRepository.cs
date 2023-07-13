@@ -6,6 +6,6 @@ namespace Movie.Management.Infra.Repository.Interface
     {
         Task<IEnumerable<Movies>> GetAllAsync();
 
-        Task<Movies> GetByIdAsync(Guid id);
+        Task<Movies> GetByIdAsync(int id);
     }
 }

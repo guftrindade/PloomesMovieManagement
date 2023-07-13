@@ -15,7 +15,7 @@ namespace Movie.Management.Infra.Mappings
             builder.Property(m => m.Id)
                 .HasColumnName("Id")
                 .IsRequired()
-                .HasColumnType("UNIQUEIDENTIFIER");
+                .UseIdentityColumn();
 
             builder.Property(x => x.Title)
                 .HasColumnName("Title")
@@ -33,7 +33,7 @@ namespace Movie.Management.Infra.Mappings
 
             builder.Property(x => x.CreatedDate)
                 .HasColumnName("CreatedDate")
-                .HasColumnType("DATETIME2")
+                .HasColumnType("SMALLDATETIME")
                 .IsRequired();
         }
     }

@@ -19,7 +19,7 @@ namespace Movie.Management.Infra.Repository
             return await _context.Movies.ToListAsync();
         }
 
-        public async Task<Movies> GetByIdAsync(Guid id)
+        public async Task<Movies> GetByIdAsync(int id)
         {
             return await _context.Movies.SingleOrDefaultAsync(d => d.Id == id);
         }

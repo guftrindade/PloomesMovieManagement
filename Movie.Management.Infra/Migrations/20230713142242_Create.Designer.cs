@@ -12,8 +12,8 @@ using Movie.Management.Infra.Data;
 namespace Movie.Management.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230713020951_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230713142242_Create")]
+    partial class Create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,13 +27,15 @@ namespace Movie.Management.Infra.Migrations
 
             modelBuilder.Entity("Movie.Management.Infra.Models.Movies", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("UNIQUEIDENTIFIER")
+                        .HasColumnType("int")
                         .HasColumnName("Id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("DATETIME2")
+                        .HasColumnType("SMALLDATETIME")
                         .HasColumnName("CreatedDate");
 
                     b.Property<string>("DirectedBy")

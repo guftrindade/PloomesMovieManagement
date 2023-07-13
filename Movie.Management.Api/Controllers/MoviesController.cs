@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Movie.Management.Api.ModelsDto;
+using Movie.Management.Api.ViewModel;
 using Movie.Management.Domain.ModelDto;
 using Movie.Management.Domain.Service.Interface;
 using NSwag.Annotations;
@@ -29,16 +30,17 @@ namespace Movie.Management.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ResponseDto>> GetAsync()
+        public async Task<ActionResult<MovieResponseViewModel>> GetAsync()
         {
             var response = await _movieService.GetAllMoviesAsync();
+            var responseVm = _mapper.Map<IEnumerable<MovieResponseViewModel>>(response);
 
-            if (response == null)
+            if (responseVm == null)
             {
                 return NotFound();
             }
 
-            return Ok(response);
+            return Ok(responseVm);
         }
 
         /// <summary>
@@ -49,16 +51,17 @@ namespace Movie.Management.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ResponseDto>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<MovieResponseViewModel>> GetByIdAsync(int id)
         {
             var response = await _movieService.GetMovieById(id);
+            var responseVm = _mapper.Map<MovieResponseViewModel>(response);
 
-            if (response == null)
+            if (responseVm == null)
             {
                 return NotFound();
             }
 
-            return Ok(response);
+            return Ok(responseVm);
         }
 
         /// <summary>
@@ -70,18 +73,20 @@ namespace Movie.Management.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PostAsync([FromBody] MovieRequestViewModel requestVm)
+        public async Task<ActionResult> PostAsync([FromBody] MovieRequestViewModel requestVm)
         {
             var requestDto = _mapper.Map<MovieDto>(requestVm);
 
             var response = await _movieService.AddMovieAsync(requestDto);
 
-            if (response == null)
+            var responseVm = _mapper.Map<MovieResponseViewModel>(response);
+
+            if (responseVm == null)
             {
                 return BadRequest();
             }
 
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = response.Id }, response);
+            return Created(nameof(GetByIdAsync), response);
         }
     }
 }

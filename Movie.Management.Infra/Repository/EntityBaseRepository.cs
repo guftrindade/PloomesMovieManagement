@@ -15,7 +15,6 @@ namespace Movie.Management.Infra.Repository
         public async void Add<T>(T entity) where T : class
         {
             await _dbContext.AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<int> SaveChanges()

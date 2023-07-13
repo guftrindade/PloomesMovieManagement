@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Movie.Management.Domain.ModelDto;
 using Movie.Management.Domain.Service.Interface;
+using Movie.Management.Domain.Validations;
 using Movie.Management.Infra.Models;
 using Movie.Management.Infra.Repository.Interface;
 
@@ -17,39 +18,39 @@ namespace Movie.Management.Domain.Service
             _mapper = mapper;
         }
 
-        public async Task<ResponseDto> GetAllMoviesAsync()
+        public async Task<IEnumerable<Movies>> GetAllMoviesAsync()
         {
             var response = await _movieRepository.GetAllAsync();
-            var responseResult = _mapper.Map<IEnumerable<ResponseDto>>(response);
-
-            //configurar retorno para casos de erro padrão
-            return responseResult.FirstOrDefault();
+            return _mapper.Map<IEnumerable<Movies>>(response);
         }
 
-        public Task<ResponseDto> GetMovieById(Guid id)
+        public async Task<Movies> GetMovieById(int id)
         {
-            throw new NotImplementedException();
+            var response = await _movieRepository.GetByIdAsync(id);
+            return _mapper.Map<Movies>(response);
         }
 
-        public async Task<ResponseDto> AddMovieAsync(MovieDto movieDto)
+        public async Task<Movies> AddMovieAsync(MovieDto movieDto)
         {
-            if (VerifyYear(movieDto.Year))
+            try
             {
-                var movie = _mapper.Map<Movies>(movieDto);
+                if (MoviesValidation.IsValidYear(movieDto.Year))
+                {
+                    var movie = _mapper.Map<Movies>(movieDto);
 
-                _movieRepository.Add(movie);
-                await _movieRepository.SaveChanges();
+                    _movieRepository.Add(movie);
+                    await _movieRepository.SaveChanges();
 
-                return new ResponseDto();
+                    return movie;
+                }
+
             }
-            
-            return new ResponseDto();
-        }
+            catch (Exception ex)
+            {
+                
+            }
 
-        private static bool VerifyYear(int year)
-        {
-            return year >= 1000 && year <= 9999;
+            return null;
         }
-
     }
 }

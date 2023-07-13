@@ -24,13 +24,15 @@ namespace Movie.Management.Infra.Migrations
 
             modelBuilder.Entity("Movie.Management.Infra.Models.Movies", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("UNIQUEIDENTIFIER")
+                        .HasColumnType("int")
                         .HasColumnName("Id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("DATETIME2")
+                        .HasColumnType("SMALLDATETIME")
                         .HasColumnName("CreatedDate");
 
                     b.Property<string>("DirectedBy")
