@@ -54,7 +54,7 @@ namespace Movie.Management.Domain.Service
 
             if (!MoviesValidation.IsValidYear(movieDto.Year))
             {
-                returnOperation.Errors.Mensagens.Add("[Year] fiel must be in 'YYYY' format.");
+                returnOperation.Errors.Mensagens.Add("[Year] fiel must be 'YYYY' format!");
             }
 
             return returnOperation;

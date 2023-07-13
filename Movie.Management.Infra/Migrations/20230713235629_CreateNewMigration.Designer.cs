@@ -12,8 +12,8 @@ using Movie.Management.Infra.Data;
 namespace Movie.Management.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230713142242_Create")]
-    partial class Create
+    [Migration("20230713235629_CreateNewMigration")]
+    partial class CreateNewMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,11 +35,10 @@ namespace Movie.Management.Infra.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("SMALLDATETIME")
+                        .HasColumnType("DATETIME2")
                         .HasColumnName("CreatedDate");
 
                     b.Property<string>("DirectedBy")
-                        .IsRequired()
                         .HasColumnType("VARCHAR(255)")
                         .HasColumnName("DirectedBy");
 

@@ -32,11 +32,10 @@ namespace Movie.Management.Infra.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("SMALLDATETIME")
+                        .HasColumnType("DATETIME2")
                         .HasColumnName("CreatedDate");
 
                     b.Property<string>("DirectedBy")
-                        .IsRequired()
                         .HasColumnType("VARCHAR(255)")
                         .HasColumnName("DirectedBy");
 

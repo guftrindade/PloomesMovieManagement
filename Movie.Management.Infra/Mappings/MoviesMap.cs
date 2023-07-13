@@ -33,7 +33,7 @@ namespace Movie.Management.Infra.Mappings
 
             builder.Property(x => x.CreatedDate)
                 .HasColumnName("CreatedDate")
-                .HasColumnType("SMALLDATETIME")
+                .HasColumnType("DATETIME2")
                 .IsRequired();
         }
     }
