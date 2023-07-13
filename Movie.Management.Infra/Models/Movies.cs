@@ -10,6 +10,6 @@
 
         public int Year { get; set; }
 
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow.AddHours(-3);
+        public DateTime CreatedDate { get; set; } 
     }
 }

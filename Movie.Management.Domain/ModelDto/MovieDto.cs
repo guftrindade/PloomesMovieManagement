@@ -1,4 +1,6 @@
-﻿namespace Movie.Management.Domain.ModelDto
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Movie.Management.Domain.ModelDto
 {
     public class MovieDto
     {
@@ -10,6 +12,6 @@
 
         public int Year { get; set; }
 
-        //public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow.AddHours(-3);
     }
 }

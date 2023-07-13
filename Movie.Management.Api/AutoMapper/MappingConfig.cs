@@ -15,6 +15,7 @@ namespace Movie.Management.Api.AutoMapper
                 config.CreateMap<MovieRequestViewModel, MovieDto>();
                 config.CreateMap<MovieDto, MovieResponseViewModel>();
                 config.CreateMap<MovieDto, Movies>();
+                config.CreateMap<Movies, MovieDto>();
                 config.CreateMap<Movies, MovieResponseViewModel>();
             });
 
