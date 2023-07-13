@@ -11,10 +11,10 @@ namespace Movie.Management.Api.Configuration
                 config.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Ploomes Movie Management API",
-                    Description = "Teste prático desenvolvido para o processo seletivo da Ploomes.",
+                    Description = "Teste prático desenvolvido para o processo seletivo de Desenvolvedor C# Júnior - Ploomes.",
                     Contact = new OpenApiContact
                     {
-                        Name = "Gustavo Trindade",
+                        Name = "Gustavo Ferreira Trindade",
                         Email = "gustavo@dev.com"
                     }
                 });

@@ -1,48 +1,37 @@
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Movie.Management.Api.AutoMapper;
 using Movie.Management.Api.Configuration;
-using Movie.Management.Domain.Service;
-using Movie.Management.Domain.Service.Interface;
-using Movie.Management.Infra.Data;
-using Movie.Management.Infra.Repository;
-using Movie.Management.Infra.Repository.Interface;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(options =>
+namespace Movie.Management.Api
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+    public static class Program
+    {
+        private static WebApplicationBuilder _builder;
+        private static WebApplication _app;
 
-IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
-builder.Services.AddSingleton(mapper);
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        private static void Main(string[] args)
+        {
+            _builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.AddSwaggerConfiguration();
+            ConfigureServices();
 
-builder.Services.AddScoped<IMoviesService, MoviesService>();
-builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-builder.Services.AddScoped<IEntityBaseRepository, EntityBaseRepository>();
+            _app = _builder.Build();
 
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = "localhost:6379";
-});
+            ConfigureRequestsPipeline();
 
-var app = builder.Build();
+            _app.Run();
+        }
 
-// Configure the HTTP request pipeline.
-app.UseSwaggerConfiguration();
+        private static void ConfigureServices()
+        {
+            _builder.AddApiConfiguration();
 
-app.UseHttpsRedirection();
+            _builder.AddSwaggerConfiguration();
+        }
 
-app.UseAuthorization();
+        private static void ConfigureRequestsPipeline()
+        {
+            _app.UseApiConfiguration();
 
-app.MapControllers();
-
-app.Run();
+            _app.UseSwaggerConfiguration();
+        }
+    }
+}
