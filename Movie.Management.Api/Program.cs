@@ -11,6 +11,7 @@ namespace Movie.Management.Api
         {
             _builder = WebApplication.CreateBuilder(args);
 
+            
             ConfigureServices();
 
             _app = _builder.Build();
@@ -23,7 +24,7 @@ namespace Movie.Management.Api
         private static void ConfigureServices()
         {
             _builder.AddApiConfiguration();
-
+            _builder.Logging.AddLog4Net("log4net.config");
             _builder.AddSwaggerConfiguration();
         }
 

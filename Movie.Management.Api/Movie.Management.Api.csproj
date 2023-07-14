@@ -16,6 +16,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
 		<PackageReference Include="NSwag.Annotations" Version="13.19.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>
@@ -23,6 +24,12 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Movie.Management.Domain\Movie.Management.Domain.csproj" />
 		<ProjectReference Include="..\Movie.Management.Infra\Movie.Management.Infra.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="log4net.config">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<PropertyGroup>

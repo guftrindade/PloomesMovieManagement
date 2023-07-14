@@ -15,11 +15,13 @@ namespace Movie.Management.Api.Controllers
     {
         private readonly IMoviesService _movieService;
         private readonly IMapper _mapper;
+        private readonly ILogger<MoviesController> _logger;
 
-        public MoviesController(IMoviesService movieService, IMapper mapper)
+        public MoviesController(IMoviesService movieService, IMapper mapper, ILogger<MoviesController> logger)
         {
             _movieService = movieService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -93,6 +95,7 @@ namespace Movie.Management.Api.Controllers
             catch (Exception ex)
             {
                 resultOperation.Errors.Messages.Add(ex.Message);
+                _logger.LogError(ex.Message, ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
