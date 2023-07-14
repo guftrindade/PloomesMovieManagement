@@ -19,16 +19,16 @@ namespace Movie.Management.Domain.Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Movies>> GetAllMoviesAsync()
+        public async Task<IEnumerable<MovieDto>> GetAllMoviesAsync()
         {
             var response = await _movieRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<Movies>>(response);
+            return _mapper.Map<IEnumerable<MovieDto>>(response);
         }
 
-        public async Task<Movies> GetMovieById(int id)
+        public async Task<MovieDto> GetMovieById(int id)
         {
             var response = await _movieRepository.GetByIdAsync(id);
-            return _mapper.Map<Movies>(response);
+            return _mapper.Map<MovieDto>(response);
         }
 
         public async Task<ResultOperation<MovieDto>> AddMovieAsync(MovieDto movieDto)

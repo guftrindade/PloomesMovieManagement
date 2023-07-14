@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Movie.Management.Api.ModelsDto
+namespace Movie.Management.Api.ViewModel
 {
     public class MovieRequestViewModel
     {

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Movie.Management.Api.AutoMapper;
+﻿using Microsoft.EntityFrameworkCore;
 using Movie.Management.Domain.Service;
 using Movie.Management.Domain.Service.Interface;
 using Movie.Management.Infra.Data;
@@ -18,8 +16,6 @@ namespace Movie.Management.Api.Configuration
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
-            builder.Services.AddSingleton(mapper);
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddControllers();

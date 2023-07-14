@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Movie.Management.Api.ModelsDto;
 using Movie.Management.Api.ViewModel;
 using Movie.Management.Domain.Helpers;
 using Movie.Management.Domain.ModelDto;
