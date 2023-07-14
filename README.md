@@ -1,4 +1,4 @@
-# <img align="center" height="50" src="https://github.com/guftrindade/PloomesMovieManagement/assets/67704261/6f0759a1-91f7-4298-935e-57575afe3055" /> PloomesMovieManagement
+# <img align="center" height="50" src="https://github.com/guftrindade/PloomesMovieManagement/assets/67704261/6f0759a1-91f7-4298-935e-57575afe3055" /> Ploomes Movie Management
 
 Projeto de teste para um processo seletivo ao cargo de desenvolvedor na Empresa Ploomes. Trata-se de uma API de gerenciamento de filmes, tendo funcionalidades de inserção e listagem de dados conforme solicitado.
 
