@@ -83,6 +83,7 @@ namespace Movie.Management.Api.Controllers
             try
             {
                 var resultOperationService = await _movieService.AddMovieAsync(requestDto);
+                _logger.LogError("ERROMessage", "ERRO");
 
                 if (!resultOperationService.Success)
                 {
@@ -95,7 +96,7 @@ namespace Movie.Management.Api.Controllers
             catch (Exception ex)
             {
                 resultOperation.Errors.Messages.Add(ex.Message);
-                _logger.LogError(ex.Message, ex);
+                _logger.LogError(ex.Message, "ERRO");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

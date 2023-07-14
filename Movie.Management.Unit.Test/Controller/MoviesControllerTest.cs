@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Movie.Management.Api.Controllers;
 using Movie.Management.Domain.ModelDto;
@@ -11,15 +13,17 @@ namespace Movie.Management.Unit.Test.Controller
     public class MoviesControllerTest : ConfigBase
     {
         private readonly Mock<IMoviesService> _movieServiceMock;
+        private readonly Mock<ILogger<MoviesController>> _logger;
 
         public MoviesControllerTest()
         {
             _movieServiceMock = new Mock<IMoviesService>();
+            _logger = new Mock<ILogger<MoviesController>>();
         }
 
         private MoviesController GetController()
         {
-            return new MoviesController(_movieServiceMock.Object, _mapper);
+            return new MoviesController(_movieServiceMock.Object, _mapper, _logger.Object);
         }
 
         [Fact(DisplayName = "Get all movies")]

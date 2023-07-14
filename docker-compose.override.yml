@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  seq:
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5340:80"
+
+  sqldata:
+    environment:
+      - SA_PASSWORD=
+      - ACCEPT_EULA=Y
+    ports:
+      - "5433:1433"
+    volumes:
+      - ploomesmovie-sqldata:/var/opt/mssql
+
+volumes:
+  ploomesmovie-sqldata:
+    external: false

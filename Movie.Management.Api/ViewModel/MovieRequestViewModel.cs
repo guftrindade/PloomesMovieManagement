@@ -10,6 +10,7 @@ namespace Movie.Management.Api.ViewModel
         /// </summary>
         /// <example>Transformers</example>
         [Required]
+        [MaxLength(255)]
         public string Title { get; set; }
 
         /// <summary>
@@ -17,6 +18,7 @@ namespace Movie.Management.Api.ViewModel
         /// Diretor do filme
         /// </summary>
         /// <example>Michael Bay</example>
+        [MaxLength(255)]
         public string DirectedBy { get; set; }
 
         /// <summary>
@@ -25,6 +27,7 @@ namespace Movie.Management.Api.ViewModel
         /// </summary>
         /// <example>2007</example>
         [Required]
+        [RegularExpression(@"^\d{4,4}?")]
         public int Year { get; set; }
     }
 }

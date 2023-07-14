@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SRC", "SRC", "{FE7928F5-F6C7-4482-9BFF-F12E5B042F58}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.override.yml = docker-compose.override.yml
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TEST", "TEST", "{9F066A3C-B94E-41EB-B83D-6C950659FDC0}"
 EndProject
@@ -13,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Management.Infra", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Management.Domain", "Movie.Management.Domain\Movie.Management.Domain.csproj", "{2FF926D5-D8AA-483A-90A2-9B2B09E27E3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Management.Unit.Test", "Movie.Management.Unit.Test\Movie.Management.Unit.Test.csproj", "{F38F2427-79C9-40D3-9B58-139BBBF1548A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Management.Unit.Test", "Movie.Management.Unit.Test\Movie.Management.Unit.Test.csproj", "{F38F2427-79C9-40D3-9B58-139BBBF1548A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
