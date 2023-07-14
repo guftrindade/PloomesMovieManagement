@@ -1,17 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Moq;
+﻿using Moq;
 using Movie.Management.Domain.ModelDto;
 using Movie.Management.Domain.Service;
-using Movie.Management.Domain.Service.Interface;
 using Movie.Management.Infra.Models;
 using Movie.Management.Infra.Repository.Interface;
 using Movie.Management.Unit.Test.Configuration;
 using Movie.Management.Unit.Test.Mocks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Movie.Management.Unit.Test.Service
 {
@@ -29,7 +22,7 @@ namespace Movie.Management.Unit.Test.Service
             return new MoviesService(_movieRepositoryMock.Object, _mapper);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Get all movies from repository")]
         public async Task GetAllMovies_ShouldReturnMovies()
         {
             var moviesMock = MovieMock.MovieFaker.Generate(2);
@@ -43,7 +36,7 @@ namespace Movie.Management.Unit.Test.Service
             Assert.True(result.Count().Equals(2));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Get movie by Id from repository")]
         public async Task GetMovieById_ShouldReturnMovie()
         {
             var movieId = 1;
@@ -59,7 +52,7 @@ namespace Movie.Management.Unit.Test.Service
             Assert.IsType<MovieDto>(response);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Get movie by non-existent movieId in repository")]
         public async Task GetMovieById_WhenMovieNotFound_ShouldReturnNull()
         {
             Movies? movieMock = null;
@@ -73,7 +66,7 @@ namespace Movie.Management.Unit.Test.Service
             Assert.Null(response);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Create new movie in repository")]
         public async Task AddMoviesAsync_ShouldAddMovie()
         {
             var movieDtoMock = MovieMock.MovieDtoFaker.Generate();
@@ -83,10 +76,10 @@ namespace Movie.Management.Unit.Test.Service
             var response = await GetService().AddMovieAsync(movieDtoMock);
 
             Assert.True(response.Success);
-            Assert.False(response.Errors.Mensagens.Any());
+            Assert.False(response.Errors.Messages.Any());
         }
 
-        [Fact]
+        [Fact(DisplayName = "Create new movie in repository with invalid year")]
         public async Task AddMoviesAsync_WhenYearIsInvalid_ShouldReturnError()
         {
             var movieDtoMock = MovieMock.MovieDtoFaker.Generate();
@@ -97,7 +90,7 @@ namespace Movie.Management.Unit.Test.Service
             var response = await GetService().AddMovieAsync(movieDtoMock);
 
             Assert.False(response.Success);
-            Assert.True(response.Errors.Mensagens.Any());
+            Assert.True(response.Errors.Messages.Any());
         }
     }
 }

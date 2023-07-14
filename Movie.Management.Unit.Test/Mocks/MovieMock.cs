@@ -17,17 +17,6 @@ namespace Movie.Management.Unit.Test.Mocks
                 Year = 1999
             });
 
-        public static Faker<MovieResponseViewModel> MovieResponseVMFaker =>
-            new Faker<MovieResponseViewModel>()
-            .CustomInstantiator(faker => new MovieResponseViewModel()
-            {
-                Id = faker.Random.Number(1, 10),
-                Title = "Star Wars: Episode I – The Phantom Menace",
-                DirectedBy = "George Lucas",
-                Year = 1999,
-                CreatedDate = DateTime.UtcNow.AddHours(-3)
-            });
-
         public static Faker<MovieDto> MovieDtoFaker =>
             new Faker<MovieDto>()
             .CustomInstantiator(faker => new MovieDto()
@@ -43,8 +32,7 @@ namespace Movie.Management.Unit.Test.Mocks
             new Faker<ResultOperation<MovieDto>>()
             .CustomInstantiator(faker => new ResultOperation<MovieDto>()
             {
-                Result = MovieDtoFaker.Generate(),
-                
+                Result = MovieDtoFaker.Generate()
             });
 
         public static Faker<Movies> MovieFaker =>
@@ -57,7 +45,5 @@ namespace Movie.Management.Unit.Test.Mocks
                 Year = 1999,
                 CreatedDate = DateTime.UtcNow.AddHours(-3)
             });
-
-
     }
 }

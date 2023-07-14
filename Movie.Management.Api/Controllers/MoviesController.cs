@@ -92,7 +92,7 @@ namespace Movie.Management.Api.Controllers
             }
             catch (Exception ex)
             {
-                resultOperation.Errors.Mensagens.Add(ex.Message);
+                resultOperation.Errors.Messages.Add(ex.Message);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

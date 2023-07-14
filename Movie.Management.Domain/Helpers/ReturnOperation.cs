@@ -8,7 +8,7 @@
             Errors = new ResponseErrorMessages();
         }
 
-        public bool Success { get { return !Errors.Mensagens.Any(); } }
+        public bool Success { get { return !Errors.Messages.Any(); } }
 
         public ResponseErrorMessages Errors { get; set; }
 
@@ -19,9 +19,9 @@
     {
         public ResponseErrorMessages()
         {
-            Mensagens = new List<string>();
+            Messages = new List<string>();
         }
 
-        public List<string> Mensagens { get; set; }
+        public List<string> Messages { get; set; }
     }
 }
