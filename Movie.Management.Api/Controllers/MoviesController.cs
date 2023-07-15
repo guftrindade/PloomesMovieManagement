@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Movie.Management.Api.ViewModel;
+using Movie.Management.Api.ViewModel.CustomResponse;
 using Movie.Management.Domain.Helpers;
 using Movie.Management.Domain.ModelDto;
 using Movie.Management.Domain.Service.Interface;
@@ -34,15 +35,23 @@ namespace Movie.Management.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MovieResponseViewModel>> GetAsync()
         {
-            var response = await _movieService.GetAllMoviesAsync();
-            var responseVm = _mapper.Map<IEnumerable<MovieResponseViewModel>>(response);
-
-            if (responseVm == null)
+            try
             {
-                return NotFound();
-            }
+                var resultOperation = await _movieService.GetAllMoviesAsync();
 
-            return Ok(responseVm);
+                if (resultOperation.Result is null)
+                {
+                    return NotFound();
+                }
+
+                var responseVM = _mapper.Map<IEnumerable<MovieResponseViewModel>>(resultOperation.Result);
+                return Ok(responseVM);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, "ERRO");
+                return StatusCode(StatusCodes.Status500InternalServerError, new ConfigurationResponse().SetErrorResponse(ex));
+            }
         }
 
         /// <summary>
@@ -55,15 +64,23 @@ namespace Movie.Management.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MovieResponseViewModel>> GetByIdAsync(int id)
         {
-            var response = await _movieService.GetMovieById(id);
-            var responseVm = _mapper.Map<MovieResponseViewModel>(response);
-
-            if (responseVm == null)
+            try
             {
-                return NotFound();
-            }
+                var resultOperation = await _movieService.GetMovieById(id);
 
-            return Ok(responseVm);
+                if (resultOperation.Result is null)
+                {
+                    return NotFound();
+                }
+
+                var responseVM = _mapper.Map<MovieResponseViewModel>(resultOperation.Result);
+                return Ok(responseVM);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, "ERRO");
+                return StatusCode(StatusCodes.Status500InternalServerError, new ConfigurationResponse().SetErrorResponse(ex));
+            }
         }
 
         /// <summary>
@@ -83,7 +100,6 @@ namespace Movie.Management.Api.Controllers
             try
             {
                 var resultOperationService = await _movieService.AddMovieAsync(requestDto);
-                _logger.LogError("ERROMessage", "ERRO");
 
                 if (!resultOperationService.Success)
                 {
@@ -97,7 +113,7 @@ namespace Movie.Management.Api.Controllers
             {
                 resultOperation.Errors.Messages.Add(ex.Message);
                 _logger.LogError(ex.Message, "ERRO");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ConfigurationResponse().SetErrorResponse(ex));
             }
         }
     }

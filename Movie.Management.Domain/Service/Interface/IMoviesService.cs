@@ -5,8 +5,8 @@ namespace Movie.Management.Domain.Service.Interface
 {
     public interface IMoviesService
     {
-        Task<IEnumerable<MovieDto>> GetAllMoviesAsync();
-        Task<MovieDto> GetMovieById(int id);
+        Task<ResultOperation<IEnumerable<MovieDto>>> GetAllMoviesAsync();
+        Task<ResultOperation<MovieDto>> GetMovieById(int id);
         Task<ResultOperation<MovieDto>> AddMovieAsync(MovieDto movieDto);
     }
 }
