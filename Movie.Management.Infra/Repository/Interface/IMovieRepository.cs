@@ -7,5 +7,9 @@ namespace Movie.Management.Infra.Repository.Interface
         Task<IEnumerable<Movies>> GetAllAsync(int skip, int take);
 
         Task<Movies> GetByIdAsync(int id);
+
+        IQueryable<Movies> GetPageByNumberAndRecords(int pageNumber, int recordsPerPage);
+
+        Task<int> GetTotalRecords();
     }
 }

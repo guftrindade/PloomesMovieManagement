@@ -7,7 +7,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStringSql=Server=database;TrustServerCertificate=True;Database=MovieManagementDB;User Id=sa; Password=Mudar123!@#
-      - Redis=redis:6379 
+      - ConnectionStringRedis=redis:6379
     ports:
       - "5102:80" #Swagger
       - "9102:81" #Api

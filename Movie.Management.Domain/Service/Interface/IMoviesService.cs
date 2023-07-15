@@ -8,5 +8,6 @@ namespace Movie.Management.Domain.Service.Interface
         Task<ResultOperation<IEnumerable<MovieDto>>> GetAllMoviesAsync(int skip, int take);
         Task<ResultOperation<MovieDto>> GetMovieById(int id);
         Task<ResultOperation<MovieDto>> AddMovieAsync(MovieDto movieDto);
+        Task<ResultOperation<MoviePaginatedDto>> GetMoviesPaginated(int pageNumber, int recordsPerPage);
     }
 }

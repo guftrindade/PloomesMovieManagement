@@ -3,10 +3,8 @@ using Microsoft.Extensions.Caching.Distributed;
 using Movie.Management.Infra.Data;
 using Movie.Management.Infra.Models;
 using Movie.Management.Infra.Repository.Interface;
-using Constants = Movie.Management.Infra.Util.Constants;
 using System.Text;
 using Newtonsoft.Json;
-using Azure;
 
 namespace Movie.Management.Infra.Repository
 {
@@ -32,6 +30,23 @@ namespace Movie.Management.Infra.Repository
             return response;
         }
 
+        public IQueryable<Movies> GetPageByNumberAndRecords(int pageNumber, int recordsPerPage)
+        {
+            var response = _dbContext.Movies.Skip((pageNumber - 1) * recordsPerPage)
+                                            .Take(recordsPerPage)
+                                            .AsQueryable();     
+
+            
+            return response;
+        }
+
+        public async Task<int> GetTotalRecords()
+        {
+            var response = await _dbContext.Movies.CountAsync();
+
+            return response;
+        }
+
         public async Task<Movies> GetByIdAsync(int id)
         {
             var movies = await _distributedCache.GetAsync(GetKeyRedisMovieId(id));
@@ -43,7 +58,10 @@ namespace Movie.Management.Infra.Repository
 
             var response = await _context.Movies.SingleOrDefaultAsync(d => d.Id == id);
 
-            await SetCacheRedis(response);
+            if (response is not null)
+            {
+                await SetCacheRedis(response);
+            }
 
             return response;
         }
@@ -60,7 +78,7 @@ namespace Movie.Management.Infra.Repository
             await _distributedCache.SetAsync(GetKeyRedisMovieId(movies.Id), redisValue, options);
         }
 
-        private string GetKeyRedisMovieId(int movieId)
+        private static string GetKeyRedisMovieId(int movieId)
         {
             return $"movieId_{movieId}";
         }

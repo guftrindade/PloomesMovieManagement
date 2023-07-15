@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Movie.Management.Domain.Helpers;
 using Movie.Management.Domain.ModelDto;
 using Movie.Management.Domain.Service.Interface;
@@ -26,6 +27,24 @@ namespace Movie.Management.Domain.Service
             return new ResultOperation<IEnumerable<MovieDto>>
             {
                 Result = _mapper.Map<IEnumerable<MovieDto>>(response)
+            };
+        }
+
+        public async Task<ResultOperation<MoviePaginatedDto>> GetMoviesPaginated(int pageNumber, int recordsPerPage)
+        {
+            var totalRegistros = await _movieRepository.GetTotalRecords();
+
+            var paginatedList = await _movieRepository.GetPageByNumberAndRecords(pageNumber, recordsPerPage).ToListAsync();
+
+            var response = new MoviePaginatedDto
+            {
+                Count = totalRegistros,
+                Items = _mapper.Map<List<MovieDto>>(paginatedList)
+            };
+
+            return new ResultOperation<MoviePaginatedDto>()
+            {
+                Result = response
             };
         }
 

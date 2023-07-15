@@ -14,6 +14,7 @@ namespace Movie.Management.Api.AutoMapper
             CreateMap<MovieDto, Movies>();
             CreateMap<Movies, MovieDto>();
             CreateMap<MovieDto, MovieResponseViewModel>();
+            CreateMap<MoviePaginatedDto, MovieResponsePaginatedViewModel>();
         }
     }
 }
