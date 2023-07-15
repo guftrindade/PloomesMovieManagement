@@ -29,9 +29,9 @@ namespace Movie.Management.Unit.Test.Controller
         [Fact(DisplayName = "Get all movies")]
         public async Task GetAsync_ShouldReturnAllMovies()
         {
-            var movieDtoMock = MovieMock.MovieDtoFaker.Generate(2);
+            var movieDtoMock = MovieMock.ResultOperationGetAllFaker.Generate();
 
-            _movieServiceMock.Setup(x => x.GetAllMoviesAsync())
+            _movieServiceMock.Setup(x => x.GetAllMoviesAsync(0,25))
                 .ReturnsAsync(movieDtoMock);
 
             var response = await GetController().GetAsync();
@@ -43,11 +43,11 @@ namespace Movie.Management.Unit.Test.Controller
         [Fact(DisplayName = "Get movie by Id")]
         public async Task GetAsync_ShouldReturnMovieById()
         {
-            var movieDtoMock = MovieMock.MovieDtoFaker.Generate();
+            var responseMovieMock = MovieMock.ResultOperationFaker.Generate();
             var movieId = 1;
 
             _movieServiceMock.Setup(x => x.GetMovieById(movieId))
-                .ReturnsAsync(movieDtoMock);
+                .ReturnsAsync(responseMovieMock);
 
             var response = await GetController().GetByIdAsync(movieId);
 
@@ -58,11 +58,12 @@ namespace Movie.Management.Unit.Test.Controller
         [Fact(DisplayName = "Get movie by non-existent MovieId")]
         public async Task GetAsync_WhenMovieNonExistent_ShouldReturnNotFound()
         {
-            MovieDto? movieDtoMock = null;
+            var responseMovieMock = MovieMock.ResultOperationFaker.Generate();
+            responseMovieMock.Result = null;
             var movieId = 1;
 
             _movieServiceMock.Setup(x => x.GetMovieById(movieId))
-                .ReturnsAsync(movieDtoMock);
+                .ReturnsAsync(responseMovieMock);
 
             var response = await GetController().GetByIdAsync(movieId);
 

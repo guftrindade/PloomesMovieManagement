@@ -20,7 +20,7 @@ namespace Movie.Management.Infra.Repository
             _distributedCache = distributedCache;
         }
 
-        public async Task<IEnumerable<Movies>> GetAllAsync()
+        public async Task<IEnumerable<Movies>> GetAllAsync(int skip, int take)
         {
             var movies = await _distributedCache.GetAsync(Constants.CACHE_KEY);
 
@@ -29,7 +29,12 @@ namespace Movie.Management.Infra.Repository
                 return JsonConvert.DeserializeObject<IEnumerable<Movies>>(Encoding.UTF8.GetString(movies));
             }
 
-            var response = await _context.Movies.ToListAsync();
+            var response = await _dbContext.Movies.AsNoTracking()
+                                                  //.Where(x => x.Title.Contains(""))
+                                                  .Skip(skip)
+                                                  .Take(take)
+                                                  .ToListAsync();
+
             await SetCacheRedis(response);
 
             return response;

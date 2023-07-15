@@ -19,9 +19,9 @@ namespace Movie.Management.Domain.Service
             _mapper = mapper;
         }
 
-        public async Task<ResultOperation<IEnumerable<MovieDto>>> GetAllMoviesAsync()
+        public async Task<ResultOperation<IEnumerable<MovieDto>>> GetAllMoviesAsync(int skip, int take)
         {
-            var response = await _movieRepository.GetAllAsync();
+            var response = await _movieRepository.GetAllAsync(skip, take);
 
             return new ResultOperation<IEnumerable<MovieDto>>
             {

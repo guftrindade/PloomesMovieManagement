@@ -26,18 +26,27 @@ namespace Movie.Management.Api.Controllers
         }
 
         /// <summary>
-        /// Get all movies / Listar todos os filmes cadastrados.
+        /// Get movies / Listar filmes cadastrados.
         /// </summary>
-        /// <response code="200">Return the list of movies.</response>
-        /// <response code="401">The server can not find the requested resource.</response>
-        [HttpGet]
+        /// <param name="skip">Movies page number\
+        /// Número da página de filmes</param>
+        /// <param name="take">Number of movies per pagination\
+        /// Número de filmes por página</param>
+        /// <response code="200">Return the list of movies\
+        /// Retorna uma lista de filmes</response>
+        /// <response code="404">The server can not find the requested resource\
+        /// O servidor não consegue encontrar o recurso solicitado</response>
+        /// <response code="500">Internal Server Error\
+        /// Erro interno de servidor</response>
+        [HttpGet("skip/{skip:int}/take/{take:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<MovieResponseViewModel>> GetAsync()
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<MovieResponseViewModel>> GetAsync(int skip = 0, int take = 25)
         {
             try
             {
-                var resultOperation = await _movieService.GetAllMoviesAsync();
+                var resultOperation = await _movieService.GetAllMoviesAsync(skip, take);
 
                 if (resultOperation.Result is null)
                 {
@@ -45,6 +54,7 @@ namespace Movie.Management.Api.Controllers
                 }
 
                 var responseVM = _mapper.Map<IEnumerable<MovieResponseViewModel>>(resultOperation.Result);
+
                 return Ok(responseVM);
             }
             catch (Exception ex)
@@ -57,11 +67,18 @@ namespace Movie.Management.Api.Controllers
         /// <summary>
         /// Get movie by Id / Buscar filme por Id
         /// </summary>
-        /// <response code="200">Return a movie by Id</response>
-        /// <response code="401">The server can not find the requested resource.</response>
+        /// <param name="id">Movid Id\
+        /// Id do filme</param>
+        /// <response code="200">Return the list of movies\
+        /// Retorna uma lista de filmes</response>
+        /// <response code="404">The server can not find the requested resource\
+        /// O servidor não consegue encontrar o recurso solicitado</response>
+        /// <response code="500">Internal Server Error\
+        /// Erro interno de servidor</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<MovieResponseViewModel>> GetByIdAsync(int id)
         {
             try
@@ -86,12 +103,16 @@ namespace Movie.Management.Api.Controllers
         /// <summary>
         /// Create movie / Cadastrar filme
         /// </summary>
-        /// <response code="201">Movie successfully registered.</response>
-        /// <response code="400">The request could not be understood by the server due to incorrect syntax.</response>
-        /// <response code="500">Erro interno da API.</response>
+        /// <response code="201">Movie successfully registered\
+        /// Filme registrado com sucesso</response>
+        /// <response code="400">The request could not be understood by the server due to incorrect syntax\
+        /// A solicitação não pôde ser compreendida pelo servidor devido à sintaxe incorreta.</response>
+        /// <response code="500">Internal Server Error\
+        /// Erro interno de servidor</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> PostAsync([FromBody] MovieRequestViewModel requestVm)
         {
             var requestDto = _mapper.Map<MovieDto>(requestVm);

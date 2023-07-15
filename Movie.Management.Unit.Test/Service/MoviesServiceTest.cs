@@ -27,12 +27,12 @@ namespace Movie.Management.Unit.Test.Service
         {
             var moviesMock = MovieMock.MovieFaker.Generate(2);
 
-            _movieRepositoryMock.Setup(x => x.GetAllAsync())
+            _movieRepositoryMock.Setup(x => x.GetAllAsync(0,25))
                 .ReturnsAsync(moviesMock);
 
-            var response = await GetService().GetAllMoviesAsync();
+            var response = await GetService().GetAllMoviesAsync(0,25);
 
-            var result = Assert.IsAssignableFrom<IEnumerable<MovieDto>>(response);
+            var result = Assert.IsAssignableFrom<IEnumerable<MovieDto>>(response.Result);
             Assert.True(result.Count().Equals(2));
         }
 
@@ -49,7 +49,7 @@ namespace Movie.Management.Unit.Test.Service
             var response = await GetService().GetMovieById(movieId);
 
             Assert.NotNull(response);
-            Assert.IsType<MovieDto>(response);
+            Assert.IsType<MovieDto>(response.Result);
         }
 
         [Fact(DisplayName = "Get movie by non-existent movieId in repository")]
@@ -63,7 +63,7 @@ namespace Movie.Management.Unit.Test.Service
 
             var response = await GetService().GetMovieById(movieId);
 
-            Assert.Null(response);
+            Assert.Null(response.Result);
         }
 
         [Fact(DisplayName = "Create new movie in repository")]

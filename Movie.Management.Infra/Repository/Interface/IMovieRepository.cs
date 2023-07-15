@@ -4,7 +4,7 @@ namespace Movie.Management.Infra.Repository.Interface
 {
     public interface IMovieRepository : IEntityBaseRepository
     {
-        Task<IEnumerable<Movies>> GetAllAsync();
+        Task<IEnumerable<Movies>> GetAllAsync(int skip, int take);
 
         Task<Movies> GetByIdAsync(int id);
     }
