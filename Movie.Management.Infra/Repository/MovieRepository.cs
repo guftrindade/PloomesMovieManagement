@@ -6,6 +6,7 @@ using Movie.Management.Infra.Repository.Interface;
 using Constants = Movie.Management.Infra.Util.Constants;
 using System.Text;
 using Newtonsoft.Json;
+using Azure;
 
 namespace Movie.Management.Infra.Repository
 {
@@ -22,30 +23,32 @@ namespace Movie.Management.Infra.Repository
 
         public async Task<IEnumerable<Movies>> GetAllAsync(int skip, int take)
         {
-            var movies = await _distributedCache.GetAsync(Constants.CACHE_KEY);
-
-            if (movies != null)
-            {
-                return JsonConvert.DeserializeObject<IEnumerable<Movies>>(Encoding.UTF8.GetString(movies));
-            }
-
             var response = await _dbContext.Movies.AsNoTracking()
                                                   //.Where(x => x.Title.Contains(""))
                                                   .Skip(skip)
                                                   .Take(take)
                                                   .ToListAsync();
 
-            await SetCacheRedis(response);
-
             return response;
         }
 
         public async Task<Movies> GetByIdAsync(int id)
         {
-            return await _context.Movies.SingleOrDefaultAsync(d => d.Id == id);
+            var movies = await _distributedCache.GetAsync(GetKeyRedisMovieId(id));
+
+            if (movies != null)
+            {
+                return JsonConvert.DeserializeObject<Movies>(Encoding.UTF8.GetString(movies));
+            }
+
+            var response = await _context.Movies.SingleOrDefaultAsync(d => d.Id == id);
+
+            await SetCacheRedis(response);
+
+            return response;
         }
 
-        private async Task SetCacheRedis(IEnumerable<Movies> movies)
+        private async Task SetCacheRedis(Movies movies)
         {
             var serialize = JsonConvert.SerializeObject(movies);
             var redisValue = Encoding.UTF8.GetBytes(serialize);
@@ -54,7 +57,12 @@ namespace Movie.Management.Infra.Repository
                 .SetAbsoluteExpiration(DateTime.Now.AddMinutes(5))
                 .SetSlidingExpiration(TimeSpan.FromMinutes(1));
 
-            await _distributedCache.SetAsync(Constants.CACHE_KEY, redisValue, options);
+            await _distributedCache.SetAsync(GetKeyRedisMovieId(movies.Id), redisValue, options);
+        }
+
+        private string GetKeyRedisMovieId(int movieId)
+        {
+            return $"movieId_{movieId}";
         }
     }
 }

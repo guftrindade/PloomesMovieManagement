@@ -13,7 +13,7 @@ namespace Movie.Management.Api.Configuration
         {
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(builder.Configuration["ConnectionStringSql"]);
             });
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -27,7 +27,7 @@ namespace Movie.Management.Api.Configuration
 
             builder.Services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = builder.Configuration.GetConnectionString("Redis");
+                options.Configuration = builder.Configuration["ConnectionStringRedis"];
             });
 
             return builder;

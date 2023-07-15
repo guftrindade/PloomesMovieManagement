@@ -4,8 +4,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStringSql=Server=database;TrustServerCertificate=True;Database=MovieManagementDB;User Id=sa; Password=Mudar123!@#
+      - Redis=redis:6379 
     ports:
-      - "7256:80"
+      - "5102:80" #Swagger
+      - "9102:81" #Api
     depends_on:
       - database
       - redis
@@ -19,7 +24,6 @@ services:
       - "1433:1433"
     volumes:
       - sqlserver_data:/var/opt/mssql
-      - ./sql-scripts:/docker-entrypoint-initdb.d- 
   
   redis:
     image: redis:latest
