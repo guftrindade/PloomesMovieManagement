@@ -12,8 +12,8 @@ using Movie.Management.Infra.Data;
 namespace Movie.Management.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230713235629_CreateNewMigration")]
-    partial class CreateNewMigration
+    [Migration("20230715123423_newMigration")]
+    partial class newMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -51,7 +51,7 @@ namespace Movie.Management.Infra.Repository
             var redisValue = Encoding.UTF8.GetBytes(serialize);
 
             var options = new DistributedCacheEntryOptions()
-                .SetAbsoluteExpiration(DateTime.Now.AddMinutes(2))
+                .SetAbsoluteExpiration(DateTime.Now.AddMinutes(5))
                 .SetSlidingExpiration(TimeSpan.FromMinutes(1));
 
             await _distributedCache.SetAsync(Constants.CACHE_KEY, redisValue, options);

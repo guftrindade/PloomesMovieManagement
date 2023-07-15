@@ -27,7 +27,7 @@ namespace Movie.Management.Api.Configuration
 
             builder.Services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = "localhost:6379";
+                options.Configuration = builder.Configuration.GetConnectionString("Redis");
             });
 
             return builder;

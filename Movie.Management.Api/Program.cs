@@ -33,6 +33,8 @@ namespace Movie.Management.Api
             _app.UseApiConfiguration();
 
             _app.UseSwaggerConfiguration();
+
+            _app.MigrationInitialization();
         }
     }
 }
