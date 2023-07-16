@@ -24,10 +24,9 @@ Projeto de teste para um processo seletivo ao cargo de desenvolvedor na Empresa 
     ```
 <hr>
 
-## Arquitetura
-![image](https://github.com/guftrindade/PloomesMovieManagement/assets/67704261/d1024533-0d5a-4118-a898-2c278781a39d)
----
 ![image](https://github.com/guftrindade/PloomesMovieManagement/assets/67704261/de8b1865-6b67-469a-974f-110a0559d7f6)
+---
+![image](https://github.com/guftrindade/PloomesMovieManagement/assets/67704261/d1024533-0d5a-4118-a898-2c278781a39d)
 ---
 Foi aplicado o redis com o objetivo de otimizar as consultas. sendo assim, quando faz uma requsição ao banco de dados pelo Id, primeiramente é verificado o cache e caso não tenha informações ou o tempo já tenha expirado, 
 é então solicitado ao banco de dados e configurado posteriormente no redis para próximas consultas.
