@@ -5,13 +5,13 @@ Projeto de teste para um processo seletivo ao cargo de desenvolvedor na Empresa 
 <hr>
 
 ### Execução da aplicação via Docker
-- Abra o terminal de comando no diretório do projeto e execute o seguinte comando utilizando o [Docker Compose](https://docs.docker.com/compose/)
+- Após clonar o projeto para sua máquina local, bra o terminal de comando no diretório do raiz projeto *PloomesMovieManagement* e execute o seguinte comando utilizando o [Docker Compose](https://docs.docker.com/compose/) - *Lembre-se de estar com o docker executando*
 
     ```
     docker-compose up
     ```
 
-- O Projeto irá rodar na porta 5102, conforme o seguinte link
+- O Projeto irá rodar na porta 5102, basta acessar o seguinte endereço
 
     ```
     http://localhost:5102/swagger/index.html
