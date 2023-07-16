@@ -32,16 +32,6 @@ Projeto de teste para um processo seletivo ao cargo de desenvolvedor na Empresa 
 Foi aplicado o redis com o objetivo de otimizar as consultas. sendo assim, quando faz uma requsição ao banco de dados pelo Id, primeiramente é verificado o cache e caso não tenha informações ou o tempo já tenha expirado, 
 é então solicitado ao banco de dados e configurado posteriormente no redis para próximas consultas.
 
-### Sobre o Projeto
-Dentro dos inúmeros padrões de projeto existentes, foi adotado o **Padrão Repositório** pois permite maior oganização em relação do que foi proposto e permite a separação entre a  lógica de acesso a dados do restante da aplicação. Ele fornece uma abstração entre a camada de acesso a dados e as outras partes do sistema, permitindo que as operações de leitura e gravação de dados sejam realizadas de forma independente da implementação específica do armazenamento de dados.
-
-#### Benefícios do padrão Repository:
-
- - Separação de Responsabilidades
- - Abstração do Armazenamento de Dados
- - Testabilidade
- - Reutilização de Código
- - Segregação de Operações de Leitura e Gravação
 
 ### Tecnologias e Informações Adicionais usadas no desenvolvimento do projeto
  - .Net 7
