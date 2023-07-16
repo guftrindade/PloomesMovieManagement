@@ -13,6 +13,30 @@ Dentro dos inúmeros padrões de projeto existentes, foi adotado o **Padrão Rep
  - Reutilização de Código
  - Segregação de Operações de Leitura e Gravação
 
+<hr>
+
+## Execução da aplicação via Docker
+
+A execução pelo Docker, mais especificamente pelo [Docker Compose](https://docs.docker.com/compose/), é muito mais simples e rápido , pois não é necessário ter toda a stack necessária para executar a aplicação, mas somente o Docker.
+
+- Obviamente, instalar o Docker habilitando o WSL2 e virtualização, principalmente se estiver no SO Windows;
+- Abra o terminal no diretório */deploy* e execute o seguinte comando:
+
+    ```
+    docker-compose -f nerdstore-producao.yml up --build
+    ```
+
+    **OBS.:** *--build* é uma flag opcional que força a criação de todas as imagens docker.
+
+- Para remover todos os containers docker gerados a partir das imagens docker basta usar o seguinte comando:
+
+    ```
+    docker-compose -f nerdstore-producao.yml down
+    ```
+
+**OBS.:** pode ocorrer de ao rodar pelo Docker através do docker-compose as API's subam primeiro do que o broker de mensagens (Event Bus). Isso acaba levando nas API's não se conectarem broker de mensagens e ocasionar inconsistências na aplicação. Caso isto ocorra basta restartar as instâncias dos containers de todas as API's manualmente pelo Docker e voltará a funcionar corretamente.
+
+<hr>
 ## Arquitetura
 ![image](https://github.com/guftrindade/PloomesMovieManagement/assets/67704261/d1024533-0d5a-4118-a898-2c278781a39d)
 ---
