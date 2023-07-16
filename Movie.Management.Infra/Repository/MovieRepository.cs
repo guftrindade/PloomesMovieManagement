@@ -5,6 +5,7 @@ using Movie.Management.Infra.Models;
 using Movie.Management.Infra.Repository.Interface;
 using System.Text;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 
 namespace Movie.Management.Infra.Repository
 {
@@ -19,63 +20,57 @@ namespace Movie.Management.Infra.Repository
             _distributedCache = distributedCache;
         }
 
-        public async Task<IEnumerable<Movies>> GetAllAsync(int skip, int take)
-        {
-            var response = await _dbContext.Movies.AsNoTracking()
-                                                  //.Where(x => x.Title.Contains(""))
-                                                  .Skip(skip)
-                                                  .Take(take)
-                                                  .ToListAsync();
-
-            return response;
-        }
-
         public IQueryable<Movies> GetPageByNumberAndRecords(int pageNumber, int recordsPerPage)
         {
-            var response = _dbContext.Movies.Skip((pageNumber - 1) * recordsPerPage)
-                                            .Take(recordsPerPage)
-                                            .AsQueryable();     
-
-            
-            return response;
+            return _dbContext.Movies.Skip((pageNumber - 1) * recordsPerPage)
+                                    .Take(recordsPerPage)
+                                    .AsQueryable();     
         }
 
         public async Task<int> GetTotalRecords()
         {
-            var response = await _dbContext.Movies.CountAsync();
-
-            return response;
+            return await _dbContext.Movies.CountAsync();
         }
 
         public async Task<Movies> GetByIdAsync(int id)
         {
-            var movies = await _distributedCache.GetAsync(GetKeyRedisMovieId(id));
-
-            if (movies != null)
+            try
             {
-                return JsonConvert.DeserializeObject<Movies>(Encoding.UTF8.GetString(movies));
+                var cacheKey = GetKeyRedisMovieId(1);
+                var movies = await _distributedCache.GetAsync(cacheKey);
+
+                if (movies != null)
+                {
+                    return JsonConvert.DeserializeObject<Movies>(Encoding.UTF8.GetString(movies));
+                }
+
+                var response = await _context.Movies.SingleOrDefaultAsync(d => d.Id == id);
+
+                if (response is not null)
+                {
+                    await SetCacheRedis(response, cacheKey);
+                }
+
+                return response;
             }
-
-            var response = await _context.Movies.SingleOrDefaultAsync(d => d.Id == id);
-
-            if (response is not null)
+            catch (Exception ex)
             {
-                await SetCacheRedis(response);
+                
+                Console.WriteLine(ex.Message);
+                return await _context.Movies.SingleOrDefaultAsync(d => d.Id == id);
             }
-
-            return response;
         }
 
-        private async Task SetCacheRedis(Movies movies)
+        private async Task SetCacheRedis(Movies movies, string cacheKey)
         {
             var serialize = JsonConvert.SerializeObject(movies);
             var redisValue = Encoding.UTF8.GetBytes(serialize);
 
             var options = new DistributedCacheEntryOptions()
                 .SetAbsoluteExpiration(DateTime.Now.AddMinutes(5))
-                .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+                .SetSlidingExpiration(TimeSpan.FromMinutes(2));
 
-            await _distributedCache.SetAsync(GetKeyRedisMovieId(movies.Id), redisValue, options);
+            await _distributedCache.SetAsync(cacheKey, redisValue, options);
         }
 
         private static string GetKeyRedisMovieId(int movieId)

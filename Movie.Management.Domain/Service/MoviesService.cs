@@ -20,16 +20,6 @@ namespace Movie.Management.Domain.Service
             _mapper = mapper;
         }
 
-        public async Task<ResultOperation<IEnumerable<MovieDto>>> GetAllMoviesAsync(int skip, int take)
-        {
-            var response = await _movieRepository.GetAllAsync(skip, take);
-
-            return new ResultOperation<IEnumerable<MovieDto>>
-            {
-                Result = _mapper.Map<IEnumerable<MovieDto>>(response)
-            };
-        }
-
         public async Task<ResultOperation<MoviePaginatedDto>> GetMoviesPaginated(int pageNumber, int recordsPerPage)
         {
             var totalRegistros = await _movieRepository.GetTotalRecords();

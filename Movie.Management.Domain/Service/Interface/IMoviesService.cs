@@ -5,9 +5,8 @@ namespace Movie.Management.Domain.Service.Interface
 {
     public interface IMoviesService
     {
-        Task<ResultOperation<IEnumerable<MovieDto>>> GetAllMoviesAsync(int skip, int take);
+        Task<ResultOperation<MoviePaginatedDto>> GetMoviesPaginated(int pageNumber, int recordsPerPage);
         Task<ResultOperation<MovieDto>> GetMovieById(int id);
         Task<ResultOperation<MovieDto>> AddMovieAsync(MovieDto movieDto);
-        Task<ResultOperation<MoviePaginatedDto>> GetMoviesPaginated(int pageNumber, int recordsPerPage);
     }
 }
