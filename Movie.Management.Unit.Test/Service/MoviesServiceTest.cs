@@ -22,20 +22,6 @@ namespace Movie.Management.Unit.Test.Service
             return new MoviesService(_movieRepositoryMock.Object, _mapper);
         }
 
-        [Fact(DisplayName = "Get all movies from repository")]
-        public async Task GetAllMovies_ShouldReturnMovies()
-        {
-            var moviesMock = MovieMock.MovieFaker.Generate(2);
-
-            _movieRepositoryMock.Setup(x => x.GetAllAsync(0,25))
-                .ReturnsAsync(moviesMock);
-
-            var response = await GetService().GetAllMoviesAsync(0,25);
-
-            var result = Assert.IsAssignableFrom<IEnumerable<MovieDto>>(response.Result);
-            Assert.True(result.Count().Equals(2));
-        }
-
         [Fact(DisplayName = "Get movie by Id from repository")]
         public async Task GetMovieById_ShouldReturnMovie()
         {

@@ -35,11 +35,19 @@ namespace Movie.Management.Unit.Test.Mocks
                 Result = MovieDtoFaker.Generate()
             });
 
-        public static Faker<ResultOperation<IEnumerable<MovieDto>>> ResultOperationGetAllFaker =>
-            new Faker<ResultOperation<IEnumerable<MovieDto>>>()
-            .CustomInstantiator(faker => new ResultOperation<IEnumerable<MovieDto>>()
+        public static Faker<ResultOperation<MoviePaginatedDto>> ResultOperationGetMoviePaginatedFaker =>
+            new Faker<ResultOperation<MoviePaginatedDto>>()
+            .CustomInstantiator(faker => new ResultOperation<MoviePaginatedDto>()
             {
-                Result = MovieDtoFaker.Generate(2)
+                Result = MoviePaginatedDtoFaker.Generate()
+            });
+
+        public static Faker<MoviePaginatedDto> MoviePaginatedDtoFaker =>
+            new Faker<MoviePaginatedDto>()
+            .CustomInstantiator(faker => new MoviePaginatedDto()
+            {
+                Count = 2,
+                Items = MovieDtoFaker.Generate(2)
             });
 
         public static Faker<Movies> MovieFaker =>

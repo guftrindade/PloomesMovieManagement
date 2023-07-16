@@ -29,9 +29,9 @@ namespace Movie.Management.Unit.Test.Controller
         [Fact(DisplayName = "Get all movies")]
         public async Task GetAsync_ShouldReturnAllMovies()
         {
-            var movieDtoMock = MovieMock.ResultOperationGetAllFaker.Generate();
+            var movieDtoMock = MovieMock.ResultOperationGetMoviePaginatedFaker.Generate();
 
-            _movieServiceMock.Setup(x => x.GetAllMoviesAsync(0,25))
+            _movieServiceMock.Setup(x => x.GetMoviesPaginated(1,10))
                 .ReturnsAsync(movieDtoMock);
 
             var response = await GetController().GetAsync();

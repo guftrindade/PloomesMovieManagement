@@ -5,7 +5,6 @@ using Movie.Management.Infra.Models;
 using Movie.Management.Infra.Repository.Interface;
 using System.Text;
 using Newtonsoft.Json;
-using Microsoft.Extensions.Logging;
 
 namespace Movie.Management.Infra.Repository
 {
@@ -55,7 +54,6 @@ namespace Movie.Management.Infra.Repository
             }
             catch (Exception ex)
             {
-                
                 Console.WriteLine(ex.Message);
                 return await _context.Movies.SingleOrDefaultAsync(d => d.Id == id);
             }
