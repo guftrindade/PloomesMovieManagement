@@ -27,7 +27,7 @@ namespace Movie.Management.Api.ViewModel
         /// </summary>
         /// <example>2007</example>
         [Required]
-        [RegularExpression(@"^\d{4,4}?")]
+        [RegularExpression(@"^\d{4,4}?", ErrorMessage = "[Year] property must be in 'YYYY' format.")]
         public int Year { get; set; }
     }
 }
