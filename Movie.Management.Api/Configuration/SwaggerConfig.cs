@@ -46,7 +46,7 @@ namespace Movie.Management.Api.Configuration
         }
 
         public const string DESCRIPTION = "Teste prático desenvolvido para o processo seletivo de Desenvolvedor C# Júnior - [Ploomes](https://www.ploomes.com/)." + 
-                                          " Esta API trata-se de um gerenciamento de filmes, onde é possível fazer a inserção, listagem de todos os filmes e a busca" +
-                                          " por um filme específico. Caso tenha interesse em outros projetos, visite meu [GitHub](https://github.com/guftrindade).";
+                                          " Esta API trata-se de um gerenciamento de filmes, onde é possível fazer a inserção, listagem de todos os filmes com paginação e a busca" +
+                                          " por um filme específico pelo ID, onde foi implementado um cache utilizando Redis, otimizando consultas no banco de dados. Caso tenha interesse em outros projetos, visite meu [GitHub](https://github.com/guftrindade).";
     }
 }
